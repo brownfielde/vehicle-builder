@@ -71,6 +71,12 @@ class Cli {
           this.createCar();
         }
         // TODO: add statements to create a truck or motorbike if the user selects the respective vehicle type
+        else if (answers.vehicleType === 'Truck') {
+          this.createTruck();
+        }
+        else if (answers.vehicleType === 'Motorbike') {
+          this.createMotorbike();
+        }
       });
   }
 
@@ -171,6 +177,17 @@ class Cli {
         },
       ])
       .then((answers) => {
+        const truck = new Truck(
+          Cli.generateVin(),
+          answers.color,
+          answers.make,
+          answers.model,
+          parseInt(answers.year),
+          parseInt(answers.weight),
+          parseInt(answers.topSpeed),
+          [],
+          parseInt(answers.towingCapacity)
+        );
         // TODO: Use the answers object to pass the required properties to the Truck constructor
         // TODO: push the truck to the vehicles array
         // TODO: set the selectedVehicleVin to the vin of the truck
@@ -258,7 +275,11 @@ class Cli {
           }),
         },
       ])
-      .then((answers) => {
+      .then((answers: {vehicleToTow: Truck | Motorbike | Car; }) => {
+        if (!answers.vehicleToTow) {
+          console.log('No vehicle selected');
+          return;
+        } 
         // TODO: check if the selected vehicle is the truck
         // TODO: if it is, log that the truck cannot tow itself then perform actions on the truck to allow the user to select another action
         // TODO: if it is not, tow the selected vehicle then perform actions on the truck to allow the user to select another action
